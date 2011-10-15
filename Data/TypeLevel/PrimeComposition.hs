@@ -98,6 +98,10 @@ instance Normalise y z => Normalise (a:^:   Z  ::: y)                z
 class                            GCD x y z | x y -> z
 instance (C x y c, G c x y z) => GCD x y z
 
+-- | Finds the least common multiple of composition /x/ and composition /y/.
+class                            LCM x y z | x y -> z
+instance (C x y c, L c x y z) => LCM x y z
+
 -- | Divides composition /x/ by composition /y/ (assuming that /x/ is divisible by /y/).
 class                                             Divide x y z | x y -> z
 instance (C x y c, D c x y z', Normalise z' z) => Divide x y z
@@ -115,6 +119,16 @@ instance                                                          G GT (a:^:p:::
 instance (C  x          y  c, G c  x          y  z, Min p q r) => G EQ (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 instance (C  x (b:^:q:::y) c, G c  x (b:^:q:::y) z           ) => G LT (a:^:p:::x) (b:^:q:::y)          z
 instance (C (a:^:p:::x) y  c, G c (a:^:p:::x) y  z           ) => G GT (a:^:p:::x) (b:^:q:::y)          z
+
+-- | Finds the least common multiple of composition /x/ and composition /y/, where
+--   the heads /a/ and /b/ of compositions /x/ and /y/ have relative ordering /c/.
+class                                                             L  c          x           y           z | c x y -> z
+instance                                                          L EQ          N           N           N
+instance                                                          L LT          N  (b:^:q:::y) (b:^:q:::y)
+instance                                                          L GT (a:^:p:::x)          N  (a:^:p:::x)
+instance (C  x          y  c, L c  x          y  z, Max p q r) => L EQ (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
+instance (C  x (b:^:q:::y) c, L c  x (b:^:q:::y) z           ) => L LT (a:^:p:::x) (b:^:q:::y) (a:^:p:::z)
+instance (C (a:^:p:::x) y  c, L c (a:^:p:::x) y  z           ) => L GT (a:^:p:::x) (b:^:q:::y) (b:^:q:::z)
 
 -- | Divides composition /x/ by composition /y/ (assuming that /x/ is divisible by /y/),
 --   where the heads /a/ and /b/ of compositions /x/ and /y/ have relative ordering /c/.
