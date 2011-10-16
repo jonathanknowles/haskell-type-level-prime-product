@@ -90,7 +90,7 @@ instance Max a b c => Max (S a) (S b) (S c)
 
 -- | Normalises composition /x/ by removing all factors with a zero exponent.
 class                     Normalise                x                 y | x -> y
-instance Normalise                                 N                 N
+instance                  Normalise                N                 N
 instance Normalise y z => Normalise (a:^:(S x) ::: y) (a:^:(S x) ::: z)
 instance Normalise y z => Normalise (a:^:   Z  ::: y)                z
 
