@@ -1,6 +1,6 @@
-Name:           type-level-prime-composition
+Name:           type-level-prime-product
 Version:        0.1
-Synopsis:       Types and functions for type-level prime compositions, encoded as lists of exponentiated prime factors.
+Synopsis:       Type-level encodings and operations for products of prime numbers.
 Homepage:       https://github.com/jonathanknowles/hs-memory/
 License:        BSD3
 License-file:   LICENCE
@@ -12,6 +12,6 @@ Build-type:     Simple
 Cabal-version:  >=1.2
 
 Library
-    Exposed-modules:   Data.TypeLevel.PrimeComposition
+    Exposed-modules:   Data.TypeLevel.PrimeProduct
     Build-depends:     base >= 4.0
 

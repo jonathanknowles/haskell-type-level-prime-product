@@ -1,1 +1,1 @@
-Types and functions for type-level prime compositions, encoded as lists of exponentiated prime factors.
+Type-level encodings and operations for products of prime numbers.
