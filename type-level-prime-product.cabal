@@ -12,6 +12,6 @@ Build-type:     Simple
 Cabal-version:  >=1.2
 
 Library
-    Exposed-modules:   Data.TypeLevel.PrimeProduct
+    Exposed-modules:   Data.TypeLevel.PrimeProduct.Sparse
     Build-depends:     base >= 4.0
 

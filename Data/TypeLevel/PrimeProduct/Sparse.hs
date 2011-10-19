@@ -8,7 +8,7 @@
 {-# LANGUAGE UndecidableInstances   #-}
 
 -- | Type-level encodings and operations for products of prime numbers.
-module Data.TypeLevel.PrimeProduct where
+module Data.TypeLevel.PrimeProduct.Sparse where
 
 infixr 0 :::
 infixl 1 :^:
