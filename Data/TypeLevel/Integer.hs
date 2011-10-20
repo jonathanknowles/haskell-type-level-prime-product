@@ -45,11 +45,11 @@ instance (Compare a b z, Min' z a b c) => Min a b c
 --
 --   Returns:
 --
---   * 'LT' if (/a/ \< /b/)
---
---   * 'GT' if (/a/  > /b/)
---
 --   * 'EQ' if (/a/  = /b/).
+--
+--   * 'LT' if (/a/ \< /b/).
+--
+--   * 'GT' if (/a/  > /b/).
 --
 class                     Compare    a     b   c | a b -> c
 instance                  Compare    Z     Z  EQ
