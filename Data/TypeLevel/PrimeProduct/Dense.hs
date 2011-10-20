@@ -24,7 +24,7 @@ data S x
 data primeExponent ::: tail
 
 -- | A type-level representation of the /empty/ prime product.
-data N
+data E
 
 -- | The result of a type-level comparison between /a/ and /b/ such that (/a/ = /b/).
 data EQ
@@ -84,9 +84,9 @@ instance (G x y z', Normalise z' z) => GCD x y z
 
 -- | Finds the least common multiple of product /x/ and product /y/.
 class                              LCM      x       y       z | x y -> z
-instance                           LCM      N       N       N
-instance                           LCM      N  (q:::y) (q:::y)
-instance                           LCM (p:::x)      N  (p:::x)
+instance                           LCM      E       E       E
+instance                           LCM      E  (q:::y) (q:::y)
+instance                           LCM (p:::x)      E  (p:::x)
 instance (LCM x y z, Max p q r) => LCM (p:::x) (q:::y) (r:::z)
 
 -- | Divides product /x/ by product /y/ (assuming that /x/ is divisible by /y/).
@@ -95,9 +95,9 @@ instance (D x y z', Normalise z' z) => Divide x y z
 
 -- | Multiplies product /x/ with product /y/.
 class                                   Multiply      x       y       z | x y -> z
-instance                                Multiply      N       N       N
-instance                                Multiply      N  (q:::y) (q:::y)
-instance                                Multiply (p:::x)      N  (p:::x)
+instance                                Multiply      E       E       E
+instance                                Multiply      E  (q:::y) (q:::y)
+instance                                Multiply (p:::x)      E  (p:::x)
 instance (Multiply x y z, Add p q r) => Multiply (p:::x) (q:::y) (r:::z)
 
 -- | Normalises product /x/. Removes all trailing zero exponents.
@@ -106,32 +106,32 @@ instance (Reverse x a, Decapitate a b, Reverse b y) => Normalise x y
 
 -- | Iteratively removes zero exponents from the head of product /x/.
 class                      Decapitate          x           y | x -> y
-instance                   Decapitate          N           N
+instance                   Decapitate          E           E
 instance Decapitate x y => Decapitate (   Z :::x)          y
 instance                   Decapitate ((S a):::x) ((S a):::x)
 
 -- | Reverses the list that encodes product /x/.
 class               Reverse x y | x -> y
-instance R x N y => Reverse x y
+instance R x E y => Reverse x y
 
 -- | Divides product /x/ by product /y/ (assuming that /x/ is divisible by /y/),
 --   producing a result that may require normalisation with 'Normalise'.
 class                            D      x       y       z | x y -> z
-instance                         D      N       N       N
-instance (D N y N           ) => D      N  (Z:::y)      N
-instance                         D (p:::x)      N  (p:::x)
+instance                         D      E       E       E
+instance (D E y E           ) => D      E  (Z:::y)      E
+instance                         D (p:::x)      E  (p:::x)
 instance (D x y z, Sub p q r) => D (p:::x) (q:::y) (r:::z)
 
 -- | Finds the greatest common divisor of product /x/ and product /y/.
 --   producing a result that may require normalisation with 'Normalise'.
 class                            G      x       y       z | x y -> z
-instance                         G      N       N       N
-instance                         G      N  (q:::y)      N
-instance                         G (p:::x)      N       N
+instance                         G      E       E       E
+instance                         G      E  (q:::y)      E
+instance                         G (p:::x)      E       E
 instance (G x y z, Min p q r) => G (p:::x) (q:::y) (r:::z)
 
 -- | Reverses the list that encodes product /x/, using the accumulator /a/.
 class                     R      x  a y | x a -> y
-instance                  R      N  a a
+instance                  R      E  a a
 instance R x (p:::a) z => R (p:::x) a z
 
