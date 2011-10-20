@@ -31,7 +31,7 @@ data V x = V Integer
 -- | Converts product /x/ into a run-time value.
 class                          Value      x  where value :: V x
 instance                       Value (    Z) where value  = V (    0)
-instance (Value t         ) => Value (S   t) where value  = V (x + 1) where V x = value :: V t
+instance (Value t         ) => Value (P   t) where value  = V (x + 1) where V x = value :: V t
 instance                       Value (    E) where value  = V (    1)
 instance (Value a, Value p) => Value (a:^:p) where value  = V (a ^ p) where (V a, V p) = (value, value) :: (V a, V p)
 instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x, V y) = (value, value) :: (V x, V y)
@@ -39,7 +39,7 @@ instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x
 -- | Normalises product /x/ by removing all factors with a zero exponent.
 class                     Normalise                x                 y | x -> y
 instance                  Normalise                E                 E
-instance Normalise y z => Normalise (a:^:(S x) ::: y) (a:^:(S x) ::: z)
+instance Normalise y z => Normalise (a:^:(P x) ::: y) (a:^:(P x) ::: z)
 instance Normalise y z => Normalise (a:^:   Z  ::: y)                z
 
 -- | Finds the greatest common divisor of product /x/ and product /y/.
@@ -114,7 +114,7 @@ instance                                C              E               E  EQ
 instance                                C              E  (   b :^:q:::y) LT
 instance                                C (   a :^:p:::x)              E  GT
 instance                                C (   Z :^:p:::x) (   Z :^:q:::y) EQ
-instance                                C (   Z :^:p:::x) ((S b):^:q:::y) LT
-instance                                C ((S a):^:p:::x) (   Z :^:q:::y) GT
-instance C (a:^:p:::x) (b:^:q:::y) z => C ((S a):^:p:::x) ((S b):^:q:::y) z
+instance                                C (   Z :^:p:::x) ((P b):^:q:::y) LT
+instance                                C ((P a):^:p:::x) (   Z :^:q:::y) GT
+instance C (a:^:p:::x) (b:^:q:::y) z => C ((P a):^:p:::x) ((P b):^:q:::y) z
 

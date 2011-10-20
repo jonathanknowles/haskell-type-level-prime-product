@@ -56,7 +56,7 @@ instance (Reverse x a, Decapitate a b, Reverse b y) => Normalise x y
 class                      Decapitate          x           y | x -> y
 instance                   Decapitate          E           E
 instance Decapitate x y => Decapitate (   Z :::x)          y
-instance                   Decapitate ((S a):::x) ((S a):::x)
+instance                   Decapitate ((P a):::x) ((P a):::x)
 
 -- | Reverses the list that encodes product /x/.
 class               Reverse x y | x -> y
