@@ -43,20 +43,20 @@ instance Normalise x y => Normalise (a:^:(P n) ::: x) (a:^:(P n) ::: y)
 instance Normalise x y => Normalise (a:^:   Z  ::: x)                y
 
 -- | Multiplies product /x/ with product /y/.
-class                            Multiply x y z | x y -> z
-instance (C x y c, M c x y z) => Multiply x y z
+class                                             Multiply x y z | x y -> z
+instance (C x y c, M c x y z', Normalise z' z) => Multiply x y z
 
 -- | Divides product /x/ by product /y/ (assuming that /x/ is divisible by /y/).
 class                                             Divide x y z | x y -> z
 instance (C x y c, D c x y z', Normalise z' z) => Divide x y z
 
 -- | Finds the least common multiple of product /x/ and product /y/.
-class                            LCM x y z | x y -> z
-instance (C x y c, L c x y z) => LCM x y z
+class                                             LCM x y z | x y -> z
+instance (C x y c, L c x y z', Normalise z' z) => LCM x y z
 
 -- | Finds the greatest common divisor of product /x/ and product /y/.
-class                            GCD x y z | x y -> z
-instance (C x y c, G c x y z) => GCD x y z
+class                                             GCD x y z | x y -> z
+instance (C x y c, G c x y z', Normalise z' z) => GCD x y z
 
 -- | Multiplies product /x/ with product /y/, where the heads
 --   /a/ and /b/ of products /x/ and /y/ have relative ordering /c/.
