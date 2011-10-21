@@ -46,7 +46,7 @@ instance Normalise x y => Normalise (a:^:   Z  ::: x)                y
 class                                             Multiply x y z | x y -> z
 instance (C x y c, M c x y z', Normalise z' z) => Multiply x y z
 
--- | Divides product /x/ by product /y/ (assuming that /x/ is divisible by /y/).
+-- | Divides product /x/ by product /y/.
 class                                             Divide x y z | x y -> z
 instance (C x y c, D c x y z', Normalise z' z) => Divide x y z
 
@@ -58,8 +58,8 @@ instance (C x y c, L c x y z', Normalise z' z) => LCM x y z
 class                                             GCD x y z | x y -> z
 instance (C x y c, G c x y z', Normalise z' z) => GCD x y z
 
--- | Multiplies product /x/ with product /y/, where the heads
---   /a/ and /b/ of products /x/ and /y/ have relative ordering /c/.
+-- | Multiplies product /x/ with product /y/, when the heads /a/ and /b/
+--   of products /x/ and /y/ have relative ordering /c/.
 class                                                             M  c          x           y           z | c x y -> z
 instance                                                          M EQ          E           E           E
 instance                                                          M LT          E  (b:^:q:::y) (b:^:q:::y)
@@ -68,8 +68,8 @@ instance (C  x          y  c, M c  x          y  z, Add p q r) => M EQ (a:^:p:::
 instance (C  x (b:^:q:::y) c, M c  x (b:^:q:::y) z           ) => M LT (a:^:p:::x) (b:^:q:::y) (a:^:p:::z)
 instance (C (a:^:p:::x) y  c, M c (a:^:p:::x) y  z           ) => M GT (a:^:p:::x) (b:^:q:::y) (b:^:q:::z)
 
--- | Divides product /x/ by product /y/ (assuming that /x/ is divisible by /y/),
---   where the heads /a/ and /b/ of products /x/ and /y/ have relative ordering /c/.
+-- | Divides product /x/ by product /y/, when the heads /a/ and /b/
+--   of products /x/ and /y/ have relative ordering /c/.
 class                                                             D  c          x           y           z | c x y -> z
 instance                                                          D EQ          E           E           E
 instance                                                          D LT          E  (b:^:q:::y) (b:^:q:::y)
@@ -78,8 +78,9 @@ instance (C  x          y  c, D c  x          y  z, Sub p q r) => D EQ (a:^:p:::
 instance (C  x (b:^:q:::y) c, D c  x (b:^:q:::y) z           ) => D LT (a:^:p:::x) (b:^:q:::y) (a:^:p:::z)
 instance (C (a:^:p:::x) y  c, D c (a:^:p:::x) y  z           ) => D GT (a:^:p:::x) (b:^:q:::y) (b:^:q:::z)
 
--- | Finds the least common multiple of product /x/ and product /y/, where
---   the heads /a/ and /b/ of products /x/ and /y/ have relative ordering /c/.
+-- | Finds the least common multiple of product /x/ and product /y/,
+--   when the heads /a/ and /b/ of products /x/ and /y/ have relative
+--   ordering /c/.
 class                                                             L  c          x           y           z | c x y -> z
 instance                                                          L EQ          E           E           E
 instance                                                          L LT          E  (b:^:q:::y) (b:^:q:::y)
@@ -88,8 +89,9 @@ instance (C  x          y  c, L c  x          y  z, Max p q r) => L EQ (a:^:p:::
 instance (C  x (b:^:q:::y) c, L c  x (b:^:q:::y) z           ) => L LT (a:^:p:::x) (b:^:q:::y) (a:^:p:::z)
 instance (C (a:^:p:::x) y  c, L c (a:^:p:::x) y  z           ) => L GT (a:^:p:::x) (b:^:q:::y) (b:^:q:::z)
 
--- | Finds the greatest common divisor of product /x/ and product /y/, where
---   the heads /a/ and /b/ of products /x/ and /y/ have relative ordering /c/.
+-- | Finds the greatest common divisor of product /x/ and product /y/,
+--   when the heads /a/ and /b/ of products /x/ and /y/ have relative
+--   ordering /c/.
 class                                                             G  c          x           y           z | c x y -> z
 instance                                                          G EQ          E           E           E
 instance                                                          G LT          E  (b:^:q:::y)          E
@@ -98,8 +100,8 @@ instance (C  x          y  c, G c  x          y  z, Min p q r) => G EQ (a:^:p:::
 instance (C  x (b:^:q:::y) c, G c  x (b:^:q:::y) z           ) => G LT (a:^:p:::x) (b:^:q:::y)          z
 instance (C (a:^:p:::x) y  c, G c (a:^:p:::x) y  z           ) => G GT (a:^:p:::x) (b:^:q:::y)          z
 
--- | Compares the head (/a/ ^ /p/) of product /x/
---   with the head (/b/ ^ /q/) of product /y/.
+-- | Compares the head (/a/ ^ /p/) of product /x/ with the head
+--   (/b/ ^ /q/) of product /y/.
 --
 --   Returns:
 --
