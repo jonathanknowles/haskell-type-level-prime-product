@@ -17,7 +17,7 @@ infixr 0 :::
 
 -- | A type-level representation of a /prime product/
 --   encoded as a list of prime exponents [  /p/,   /q/,   /r/ ... ]
---   representing the prime product       [2^/p/, 3^/q/, 5^/r/ ... ].
+--   that represents the prime product    [2^/p/, 3^/q/, 5^/r/ ... ].
 data primeExponent ::: tail
 
 -- | A type-level representation of the /empty/ prime product.
