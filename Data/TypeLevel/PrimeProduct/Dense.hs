@@ -23,9 +23,6 @@ data primeExponent ::: tail
 -- | A type-level representation of the /empty/ prime product.
 data E
 
--- | The result of evaluating type-level value /x/ at run-time.
-data V x = V Integer
-
 -- | Multiplies product /x/ with product /y/.
 class                                 Multiply x y z | x y -> z
 instance (M x y z', TrimTail z' z) => Multiply x y z
