@@ -8,7 +8,16 @@
 {-# LANGUAGE UndecidableInstances   #-}
 
 -- | Type-level encodings and operations for products of prime numbers.
-module Data.TypeLevel.PrimeProduct.Dense where
+module Data.TypeLevel.PrimeProduct.Dense
+	( (:::)
+	, E
+	, Multiply
+	, Divide
+	, LCM
+	, GCD
+	, Reciprocal
+	)
+	where
 
 import Data.TypeLevel.Comparison
 import Data.TypeLevel.Integer
