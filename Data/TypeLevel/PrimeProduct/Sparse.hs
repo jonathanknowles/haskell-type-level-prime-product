@@ -64,80 +64,38 @@ instance Expand          x  x' (b:^:q:::y) y' => Expand' LT (a:^:p:::x) (a:^:p::
 instance Expand (a:^:p:::x) x'          y  y' => Expand' GT (a:^:p:::x) (b:^:Z:::x') (b:^:q:::y) (b:^:q:::y')
 
 -- | Multiplies product /x/ with product /y/.
-class                                            Multiply x y z | x y -> z
-instance (C x y c, M c x y z', Contract z' z) => Multiply x y z
+class                                                     Multiply x y z | x y -> z
+instance (Expand x x' y y', M x' y' z', Contract z' z) => Multiply x y z
 
 -- | Divides product /x/ by product /y/.
-class                                            Divide x y z | x y -> z
-instance (C x y c, D c x y z', Contract z' z) => Divide x y z
+class                                                     Divide x y z | x y -> z
+instance (Expand x x' y y', D x' y' z', Contract z' z) => Divide x y z
 
 -- | Finds the least common multiple of product /x/ and product /y/.
-class                                            LCM x y z | x y -> z
-instance (C x y c, L c x y z', Contract z' z) => LCM x y z
+class                                                     LCM x y z | x y -> z
+instance (Expand x x' y y', L x' y' z', Contract z' z) => LCM x y z
 
 -- | Finds the greatest common divisor of product /x/ and product /y/.
-class                                            GCD x y z | x y -> z
-instance (C x y c, G c x y z', Contract z' z) => GCD x y z
+class                                                     GCD x y z | x y -> z
+instance (Expand x x' y y', G x' y' z', Contract z' z) => GCD x y z
 
--- | Multiplies product /x/ with product /y/, when the heads /a/ and /b/
---   of products /x/ and /y/ have relative ordering /c/.
-class                                                             M  c          x           y           z | c x y -> z
-instance                                                          M EQ          E           E           E
-instance                                                          M LT          E  (b:^:q:::y) (b:^:q:::y)
-instance                                                          M GT (a:^:p:::x)          E  (a:^:p:::x)
-instance (C  x          y  c, M c  x          y  z, Add p q r) => M EQ (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
-instance (C  x (b:^:q:::y) c, M c  x (b:^:q:::y) z           ) => M LT (a:^:p:::x) (b:^:q:::y) (a:^:p:::z)
-instance (C (a:^:p:::x) y  c, M c (a:^:p:::x) y  z           ) => M GT (a:^:p:::x) (b:^:q:::y) (b:^:q:::z)
+-- | Multiplies expanded product /x/ with expanded product /y/.
+class                            M          x           y           z | x y -> z
+instance                         M          E           E           E
+instance (Add p q r, M x y z) => M (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 
--- | Divides product /x/ by product /y/, when the heads /a/ and /b/
---   of products /x/ and /y/ have relative ordering /c/.
-class                                                             D  c          x           y           z | c x y -> z
-instance                                                          D EQ          E           E           E
-instance                                                          D LT          E  (b:^:q:::y) (b:^:q:::y)
-instance                                                          D GT (a:^:p:::x)          E  (a:^:p:::x)
-instance (C  x          y  c, D c  x          y  z, Sub p q r) => D EQ (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
-instance (C  x (b:^:q:::y) c, D c  x (b:^:q:::y) z           ) => D LT (a:^:p:::x) (b:^:q:::y) (a:^:p:::z)
-instance (C (a:^:p:::x) y  c, D c (a:^:p:::x) y  z           ) => D GT (a:^:p:::x) (b:^:q:::y) (b:^:q:::z)
+-- | Divides expanded product /x/ by expanded product /y/.
+class                            D          x           y           z | x y -> z
+instance                         D          E           E           E
+instance (Sub p q r, D x y z) => D (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 
--- | Finds the least common multiple of product /x/ and product /y/,
---   when the heads /a/ and /b/ of products /x/ and /y/ have relative
---   ordering /c/.
-class                                                             L  c          x           y           z | c x y -> z
-instance                                                          L EQ          E           E           E
-instance                                                          L LT          E  (b:^:q:::y) (b:^:q:::y)
-instance                                                          L GT (a:^:p:::x)          E  (a:^:p:::x)
-instance (C  x          y  c, L c  x          y  z, Max p q r) => L EQ (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
-instance (C  x (b:^:q:::y) c, L c  x (b:^:q:::y) z           ) => L LT (a:^:p:::x) (b:^:q:::y) (a:^:p:::z)
-instance (C (a:^:p:::x) y  c, L c (a:^:p:::x) y  z           ) => L GT (a:^:p:::x) (b:^:q:::y) (b:^:q:::z)
+-- | Finds the least common multiple of expanded product /x/ and expanded product /y/.
+class                            L          x           y           z | x y -> z
+instance                         L          E           E           E
+instance (Max p q r, L x y z) => L (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 
--- | Finds the greatest common divisor of product /x/ and product /y/,
---   when the heads /a/ and /b/ of products /x/ and /y/ have relative
---   ordering /c/.
-class                                                             G  c          x           y           z | c x y -> z
-instance                                                          G EQ          E           E           E
-instance                                                          G LT          E  (b:^:q:::y)          E
-instance                                                          G GT (a:^:p:::x)          E           E
-instance (C  x          y  c, G c  x          y  z, Min p q r) => G EQ (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
-instance (C  x (b:^:q:::y) c, G c  x (b:^:q:::y) z           ) => G LT (a:^:p:::x) (b:^:q:::y)          z
-instance (C (a:^:p:::x) y  c, G c (a:^:p:::x) y  z           ) => G GT (a:^:p:::x) (b:^:q:::y)          z
-
--- | Compares the head (/a/ ^ /p/) of product /x/ with the head
---   (/b/ ^ /q/) of product /y/.
---
---   Returns:
---
---   * 'LT' if (/a/ \< /b/)
---
---   * 'GT' if (/a/  > /b/)
---
---   * 'EQ' if (/a/  = /b/).
---
-class                                   C              x               y   c | x y -> c
-instance                                C              E               E  EQ
-instance                                C              E  (   b :^:q:::y) LT
-instance                                C (   a :^:p:::x)              E  GT
-instance                                C (   Z :^:p:::x) (   Z :^:q:::y) EQ
-instance                                C (   Z :^:p:::x) ((P b):^:q:::y) LT
-instance                                C ((P a):^:p:::x) (   Z :^:q:::y) GT
-instance C (a:^:p:::x) (b:^:q:::y) z => C ((P a):^:p:::x) ((P b):^:q:::y) z
+-- | Finds the greatest common divisor of expanded product /x/ and expanded product /y/.
+class                            G          x           y           z | x y -> z
+instance                         G          E           E           E
+instance (Min p q r, G x y z) => G (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 
