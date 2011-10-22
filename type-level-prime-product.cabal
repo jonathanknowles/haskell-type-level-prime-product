@@ -18,5 +18,6 @@ Library
                        Data.TypeLevel.PrimeProduct.Dense
                        Data.TypeLevel.PrimeProduct.Sparse
     Other-modules:     Data.TypeLevel.PrimeProduct.DenseTest
+                       Data.TypeLevel.PrimeProduct.SparseTest
     Build-depends:     base >= 4.0
 
