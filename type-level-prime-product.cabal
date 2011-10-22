@@ -14,6 +14,7 @@ Cabal-version:  >=1.2
 Library
     Exposed-modules:   Data.TypeLevel.Comparison
                        Data.TypeLevel.Integer
+                       Data.TypeLevel.Integer.Synonyms
                        Data.TypeLevel.PrimeProduct.Dense
                        Data.TypeLevel.PrimeProduct.Sparse
     Build-depends:     base >= 4.0
