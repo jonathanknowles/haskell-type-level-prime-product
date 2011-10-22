@@ -31,6 +31,7 @@ data V x = V Integer
 -- | Converts product /x/ into a run-time value.
 class                          Value      x  where value :: V x
 instance                       Value (    Z) where value  = V (    0)
+instance (Value t         ) => Value (N   t) where value  = V (x - 1) where V x = value :: V t
 instance (Value t         ) => Value (P   t) where value  = V (x + 1) where V x = value :: V t
 instance                       Value (    E) where value  = V (    1)
 instance (Value a, Value p) => Value (a:^:p) where value  = V (a ^ p) where (V a, V p) = (value, value) :: (V a, V p)
@@ -39,6 +40,7 @@ instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x
 -- | Contracts product /x/ by removing all factors with a zero exponent.
 class                    Contract                x                 y | x -> y
 instance                 Contract                E                 E
+instance Contract x y => Contract (a:^:(N n) ::: x) (a:^:(N n) ::: y)
 instance Contract x y => Contract (a:^:(P n) ::: x) (a:^:(P n) ::: y)
 instance Contract x y => Contract (a:^:   Z  ::: x)                y
 
