@@ -17,5 +17,6 @@ Library
                        Data.TypeLevel.Integer.Synonyms
                        Data.TypeLevel.PrimeProduct.Dense
                        Data.TypeLevel.PrimeProduct.Sparse
+    Other-modules:     Data.TypeLevel.PrimeProduct.DenseTest
     Build-depends:     base >= 4.0
 
