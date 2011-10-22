@@ -37,8 +37,8 @@ instance (Value a, Value p) => Value (a:^:p) where value  = V (a ^ p) where (V a
 instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x, V y) = (value, value) :: (V x, V y)
 
 -- | Contracts product /x/ by removing all factors with a zero exponent.
-class                     Contract                x                 y | x -> y
-instance                  Contract                E                 E
+class                    Contract                x                 y | x -> y
+instance                 Contract                E                 E
 instance Contract x y => Contract (a:^:(P n) ::: x) (a:^:(P n) ::: y)
 instance Contract x y => Contract (a:^:   Z  ::: x)                y
 
