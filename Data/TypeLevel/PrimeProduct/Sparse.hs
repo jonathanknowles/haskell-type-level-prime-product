@@ -51,40 +51,45 @@ instance (Value a, Value p) => Value (a:^:p) where value  = V (a ^ p) where (V a
 instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x, V y) = (value, value) :: (V x, V y)
 
 -- | Multiplies product /x/ with product /y/.
-class                                                     Multiply x y z | x y -> z
-instance (Expand x x' y y', M x' y' z', Contract z' z) => Multiply x y z
+class Multiply x y z | x y -> z
 
 -- | Divides product /x/ by product /y/.
-class                                                     Divide x y z | x y -> z
-instance (Expand x x' y y', D x' y' z', Contract z' z) => Divide x y z
+class Divide x y z | x y -> z
 
 -- | Finds the least common multiple of product /x/ and product /y/.
-class                                                     LCM x y z | x y -> z
-instance (Expand x x' y y', L x' y' z', Contract z' z) => LCM x y z
+class LCM x y z | x y -> z
 
 -- | Finds the greatest common divisor of product /x/ and product /y/.
-class                                                     GCD x y z | x y -> z
-instance (Expand x x' y y', G x' y' z', Contract z' z) => GCD x y z
+class GCD x y z | x y -> z
 
--- | Multiplies expanded product /x/ with expanded product /y/.
-class                            M          x           y           z | x y -> z
-instance                         M          E           E           E
-instance (Add p q r, M x y z) => M (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
+-- Perform binary operation /f/ on integers /a/ and /b/.
+class BinaryOp f a b c | f a b -> c
 
--- | Divides expanded product /x/ by expanded product /y/.
-class                            D          x           y           z | x y -> z
-instance                         D          E           E           E
-instance (Sub p q r, D x y z) => D (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
+-- Uses binary operation /f/ to zip together products /x/ and /y/.
+class Zip f x y z | f x y -> z
 
--- | Finds the least common multiple of expanded product /x/ and expanded product /y/.
-class                            L          x           y           z | x y -> z
-instance                         L          E           E           E
-instance (Max p q r, L x y z) => L (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
+-- Uses binary operation /f/ to zip together expanded products /x/ and /y/.
+class Zip' f x y z | f x y -> z
 
--- | Finds the greatest common divisor of expanded product /x/ and expanded product /y/.
-class                            G          x           y           z | x y -> z
-instance                         G          E           E           E
-instance (Min p q r, G x y z) => G (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
+data Add'
+data Sub'
+data Max'
+data Min'
+
+instance Add a b c => BinaryOp Add' a b c
+instance Sub a b c => BinaryOp Sub' a b c
+instance Min a b c => BinaryOp Min' a b c
+instance Max a b c => BinaryOp Max' a b c
+
+instance (Zip Add' x y z) => Multiply x y z
+instance (Zip Sub' x y z) => Divide   x y z
+instance (Zip Max' x y z) => LCM      x y z
+instance (Zip Min' x y z) => GCD      x y z
+
+instance (Expand x x' y y', Zip' f x' y' z', Contract z' z) => Zip f x y z
+
+instance                                     Zip' f          E           E           E
+instance (BinaryOp f p q r, Zip' f x y z) => Zip' f (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 
 -- | Contracts product /x/ by removing all factors with a zero exponent.
 class                    Contract                x                 y | x -> y
