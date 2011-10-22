@@ -36,27 +36,27 @@ instance                       Value (    E) where value  = V (    1)
 instance (Value a, Value p) => Value (a:^:p) where value  = V (a ^ p) where (V a, V p) = (value, value) :: (V a, V p)
 instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x, V y) = (value, value) :: (V x, V y)
 
--- | Normalises product /x/ by removing all factors with a zero exponent.
-class                     Normalise                x                 y | x -> y
-instance                  Normalise                E                 E
-instance Normalise x y => Normalise (a:^:(P n) ::: x) (a:^:(P n) ::: y)
-instance Normalise x y => Normalise (a:^:   Z  ::: x)                y
+-- | Contracts product /x/ by removing all factors with a zero exponent.
+class                     Contract                x                 y | x -> y
+instance                  Contract                E                 E
+instance Contract x y => Contract (a:^:(P n) ::: x) (a:^:(P n) ::: y)
+instance Contract x y => Contract (a:^:   Z  ::: x)                y
 
 -- | Multiplies product /x/ with product /y/.
-class                                             Multiply x y z | x y -> z
-instance (C x y c, M c x y z', Normalise z' z) => Multiply x y z
+class                                            Multiply x y z | x y -> z
+instance (C x y c, M c x y z', Contract z' z) => Multiply x y z
 
 -- | Divides product /x/ by product /y/.
-class                                             Divide x y z | x y -> z
-instance (C x y c, D c x y z', Normalise z' z) => Divide x y z
+class                                            Divide x y z | x y -> z
+instance (C x y c, D c x y z', Contract z' z) => Divide x y z
 
 -- | Finds the least common multiple of product /x/ and product /y/.
-class                                             LCM x y z | x y -> z
-instance (C x y c, L c x y z', Normalise z' z) => LCM x y z
+class                                            LCM x y z | x y -> z
+instance (C x y c, L c x y z', Contract z' z) => LCM x y z
 
 -- | Finds the greatest common divisor of product /x/ and product /y/.
-class                                             GCD x y z | x y -> z
-instance (C x y c, G c x y z', Normalise z' z) => GCD x y z
+class                                            GCD x y z | x y -> z
+instance (C x y c, G c x y z', Contract z' z) => GCD x y z
 
 -- | Multiplies product /x/ with product /y/, when the heads /a/ and /b/
 --   of products /x/ and /y/ have relative ordering /c/.
