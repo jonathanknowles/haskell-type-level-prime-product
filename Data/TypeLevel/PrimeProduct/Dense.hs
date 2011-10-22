@@ -16,7 +16,6 @@ module Data.TypeLevel.PrimeProduct.Dense
 	, LCM
 	, GCD
 	, Reciprocal
-	, Extend
 	)
 	where
 
@@ -34,20 +33,32 @@ data primeExponent ::: tail
 data E
 
 -- | Multiplies product /x/ with product /y/.
-class                                 Multiply x y z | x y -> z
-instance (M x y z', TrimTail z' z) => Multiply x y z
+class Multiply x y z | x y -> z
 
 -- | Divides product /x/ by product /y/.
-class                                 Divide x y z | x y -> z
-instance (D x y z', TrimTail z' z) => Divide x y z
+class Divide x y z | x y -> z
 
 -- | Finds the least common multiple of product /x/ and product /y/.
-class                                 LCM x y z | x y -> z
-instance (L x y z', TrimTail z' z) => LCM x y z
+class LCM x y z | x y -> z
 
 -- | Finds the greatest common divisor of product /x/ and product /y/.
-class                                 GCD x y z | x y -> z
-instance (G x y z', TrimTail z' z) => GCD x y z
+class GCD x y z | x y -> z
+
+-- Uses binary operator /f/ to zip together products /x/ and /y/.
+class Zip f x y z | f x y -> z
+
+-- Uses binary operator /f/ to zip together extended products /x/ and /y/.
+class Zip' f x y z | f x y -> z
+
+instance (Zip AddOperator x y z) => Multiply x y z
+instance (Zip SubOperator x y z) => Divide   x y z
+instance (Zip MaxOperator x y z) => LCM      x y z
+instance (Zip MinOperator x y z) => GCD      x y z
+
+instance (Extend x x' y y', Zip' f x' y' z', TrimTail z' z) => Zip f x y z
+
+instance                                        Zip' f      E       E       E
+instance (ApplyBinary f p q r, Zip' f x y z) => Zip' f (p:::x) (q:::y) (r:::z)
 
 -- | Find the reciprocal of product /x/.
 class                                    Reciprocal      x       y | x -> y
@@ -68,38 +79,6 @@ instance                 TrimHead          E           E
 instance TrimHead x y => TrimHead (   Z :::x)          y
 instance                 TrimHead ((N a):::x) ((N a):::x)
 instance                 TrimHead ((P a):::x) ((P a):::x)
-
--- | Multiplies product /x/ with product /y/, producing a result
---   that may contain trailing zero exponents.
-class                            M      x       y       z | x y -> z
-instance                         M      E       E       E
-instance (Add Z q r, M E y z) => M      E  (q:::y) (r:::z)
-instance (Add p Z r, M x E z) => M (p:::x)      E  (r:::z)
-instance (Add p q r, M x y z) => M (p:::x) (q:::y) (r:::z)
-
--- | Multiplies product /x/ with product /y/, producing a result
---   that may contain trailing zero exponents.
-class                            D      x       y       z | x y -> z
-instance                         D      E       E       E
-instance (Sub Z q r, D E y z) => D      E  (q:::y) (r:::z)
-instance (Sub p Z r, D x E z) => D (p:::x)      E  (r:::z)
-instance (Sub p q r, D x y z) => D (p:::x) (q:::y) (r:::z)
-
--- | Finds the least common multiple of product /x/ and product /y/,
---   producing a result that may contain trailing zero exponents.
-class                            L      x       y       z | x y -> z
-instance                         L      E       E       E
-instance (Max Z q r, L E y z) => L      E  (q:::y) (r:::z)
-instance (Max p Z r, L x E z) => L (p:::x)      E  (r:::z)
-instance (Max p q r, L x y z) => L (p:::x) (q:::y) (r:::z)
-
--- | Finds the greatest common divisor of product /x/ and product /y/,
---   producing a result that may contain trailing zero exponents.
-class                            G      x       y       z | x y -> z
-instance                         G      E       E       E
-instance (Min Z q r, G E y z) => G      E  (q:::y) (r:::z)
-instance (Min p Z r, G x E z) => G (p:::x)      E  (r:::z)
-instance (Min p q r, G x y z) => G (p:::x) (q:::y) (r:::z)
 
 -- | Reverses the list that encodes product /x/, using the accumulator /a/.
 class                     R      x  a y | x a -> y
