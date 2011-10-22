@@ -9,15 +9,14 @@
 
 -- | Type-level encodings and operations for products of prime numbers.
 module Data.TypeLevel.PrimeProduct.Sparse
-	( (:::)
-	, (:^:)
+	( (:::), (:^:)
 	, E
-	, V
-	, Value
 	, Multiply
 	, Divide
 	, LCM
 	, GCD
+	, Value
+	, V
 	)
 	where
 
