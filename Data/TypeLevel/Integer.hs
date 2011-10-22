@@ -6,7 +6,18 @@
 {-# LANGUAGE UndecidableInstances   #-}
 
 -- | Type-level encodings and operations for integers.
-module Data.TypeLevel.Integer where
+module Data.TypeLevel.Integer
+	( Z
+	, N
+	, P
+	, Add
+	, Sub
+	, Max
+	, Min
+	, Compare
+	, Negate
+	)
+	where
 
 import Data.TypeLevel.Comparison
 
