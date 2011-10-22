@@ -18,8 +18,6 @@ module Data.TypeLevel.PrimeProduct.Sparse
 	, Divide
 	, LCM
 	, GCD
-	, Contract
-	, Expand
 	)
 	where
 
