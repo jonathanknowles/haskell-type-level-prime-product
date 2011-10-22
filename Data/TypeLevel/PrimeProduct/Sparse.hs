@@ -15,6 +15,7 @@ module Data.TypeLevel.PrimeProduct.Sparse
 	, Divide
 	, LCM
 	, GCD
+	, Reciprocal
 	, Value
 	, V
 	)
@@ -74,6 +75,11 @@ instance (Expand x x' y y', Zip' f x' y' z', Contract z' z) => Zip f x y z
 
 instance                                        Zip' f          E           E           E
 instance (ApplyBinary f p q r, Zip' f x y z) => Zip' f (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
+
+-- | Find the reciprocal of product /x/.
+class                                    Reciprocal          x           y | x -> y
+instance                                 Reciprocal          E           E
+instance (Negate p q, Reciprocal x y) => Reciprocal (a:^:p:::x) (a:^:q:::y)
 
 -- | Contracts product /x/ by removing all factors with a zero exponent.
 class                    Contract                x                 y | x -> y
