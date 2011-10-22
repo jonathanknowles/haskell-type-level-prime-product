@@ -60,34 +60,34 @@ class LCM x y z | x y -> z
 -- | Finds the greatest common divisor of product /x/ and product /y/.
 class GCD x y z | x y -> z
 
--- Perform binary operation /f/ on integers /a/ and /b/.
-class BinaryOp f a b c | f a b -> c
+-- Apply binary operator /f/ to integers /a/ and /b/.
+class ApplyBinary f a b c | f a b -> c
 
--- Uses binary operation /f/ to zip together products /x/ and /y/.
+-- Uses binary operator /f/ to zip together products /x/ and /y/.
 class Zip f x y z | f x y -> z
 
--- Uses binary operation /f/ to zip together expanded products /x/ and /y/.
+-- Uses binary operator /f/ to zip together expanded products /x/ and /y/.
 class Zip' f x y z | f x y -> z
 
-data Add'
-data Sub'
-data Max'
-data Min'
+data AddOperator
+data SubOperator
+data MaxOperator
+data MinOperator
 
-instance Add a b c => BinaryOp Add' a b c
-instance Sub a b c => BinaryOp Sub' a b c
-instance Min a b c => BinaryOp Min' a b c
-instance Max a b c => BinaryOp Max' a b c
+instance Add a b c => ApplyBinary AddOperator a b c
+instance Sub a b c => ApplyBinary SubOperator a b c
+instance Min a b c => ApplyBinary MinOperator a b c
+instance Max a b c => ApplyBinary MaxOperator a b c
 
-instance (Zip Add' x y z) => Multiply x y z
-instance (Zip Sub' x y z) => Divide   x y z
-instance (Zip Max' x y z) => LCM      x y z
-instance (Zip Min' x y z) => GCD      x y z
+instance (Zip AddOperator x y z) => Multiply x y z
+instance (Zip SubOperator x y z) => Divide   x y z
+instance (Zip MaxOperator x y z) => LCM      x y z
+instance (Zip MinOperator x y z) => GCD      x y z
 
 instance (Expand x x' y y', Zip' f x' y' z', Contract z' z) => Zip f x y z
 
-instance                                     Zip' f          E           E           E
-instance (BinaryOp f p q r, Zip' f x y z) => Zip' f (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
+instance                                        Zip' f          E           E           E
+instance (ApplyBinary f p q r, Zip' f x y z) => Zip' f (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 
 -- | Contracts product /x/ by removing all factors with a zero exponent.
 class                    Contract                x                 y | x -> y
