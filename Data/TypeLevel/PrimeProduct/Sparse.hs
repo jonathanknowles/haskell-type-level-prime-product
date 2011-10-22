@@ -60,24 +60,11 @@ class LCM x y z | x y -> z
 -- | Finds the greatest common divisor of product /x/ and product /y/.
 class GCD x y z | x y -> z
 
--- Apply binary operator /f/ to integers /a/ and /b/.
-class ApplyBinary f a b c | f a b -> c
-
 -- Uses binary operator /f/ to zip together products /x/ and /y/.
 class Zip f x y z | f x y -> z
 
 -- Uses binary operator /f/ to zip together expanded products /x/ and /y/.
 class Zip' f x y z | f x y -> z
-
-data AddOperator
-data SubOperator
-data MaxOperator
-data MinOperator
-
-instance Add a b c => ApplyBinary AddOperator a b c
-instance Sub a b c => ApplyBinary SubOperator a b c
-instance Min a b c => ApplyBinary MinOperator a b c
-instance Max a b c => ApplyBinary MaxOperator a b c
 
 instance (Zip AddOperator x y z) => Multiply x y z
 instance (Zip SubOperator x y z) => Divide   x y z

@@ -10,12 +10,17 @@ module Data.TypeLevel.Integer
 	( Z
 	, N
 	, P
+	, Compare
+	, Negate
 	, Add
 	, Sub
 	, Max
 	, Min
-	, Compare
-	, Negate
+	, AddOperator
+	, SubOperator
+	, MaxOperator
+	, MinOperator
+	, ApplyBinary
 	)
 	where
 
@@ -90,3 +95,17 @@ class    Min' z  a b c | z a b -> c
 instance Min' EQ a a a
 instance Min' LT a b a
 instance Min' GT a b b
+
+-- Apply binary operator /f/ to integers /a/ and /b/.
+class ApplyBinary f a b c | f a b -> c
+
+data AddOperator
+data SubOperator
+data MaxOperator
+data MinOperator
+
+instance Add a b c => ApplyBinary AddOperator a b c
+instance Sub a b c => ApplyBinary SubOperator a b c
+instance Min a b c => ApplyBinary MinOperator a b c
+instance Max a b c => ApplyBinary MaxOperator a b c
+
