@@ -16,6 +16,7 @@ module Data.TypeLevel.PrimeProduct.Dense
 	, LCM
 	, GCD
 	, Reciprocal
+	, Extend
 	)
 	where
 
@@ -105,3 +106,13 @@ class                     R      x  a y | x a -> y
 instance                  R      E  a a
 instance R x (p:::a) z => R (p:::x) a z
 
+-- | Extends at most one of the pair of products /x/ and /y/, so that
+--   their encodings are the same length as one another. The extended
+--   product is padded with zero exponentials.
+class Extend x x' y y' | x y -> x' y'
+
+instance Extend E E E E
+
+instance Extend a a  E b  => Extend (p:::a) (p:::a )      E  (Z:::b )
+instance Extend E a  b b  => Extend      E  (Z:::a ) (q:::b) (q:::b )
+instance Extend a a' b b' => Extend (p:::a) (p:::a') (q:::b) (q:::b')
