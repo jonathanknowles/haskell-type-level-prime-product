@@ -37,34 +37,6 @@ instance                       Value (    E) where value  = V (    1)
 instance (Value a, Value p) => Value (a:^:p) where value  = V (a ^ p) where (V a, V p) = (value, value) :: (V a, V p)
 instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x, V y) = (value, value) :: (V x, V y)
 
--- | Contracts product /x/ by removing all factors with a zero exponent.
-class                    Contract                x                 y | x -> y
-instance                 Contract                E                 E
-instance Contract x y => Contract (a:^:(N n) ::: x) (a:^:(N n) ::: y)
-instance Contract x y => Contract (a:^:(P n) ::: x) (a:^:(P n) ::: y)
-instance Contract x y => Contract (a:^:   Z  ::: x)                y
-
--- | Expands products /x/ and /y/ into products /x'/ and /y'/ whose
---   encodings are the same length and share the same set of prime
---   bases as one another.
-class Expand x x' y y' | x y -> x' y'
-
-instance Expand E E E E
-instance Expand x x E y => Expand (a:^:p:::x) (a:^:p:::x)          E  (a:^:Z:::y)
-instance Expand E x y y => Expand          E  (b:^:Z:::x) (b:^:q:::y) (b:^:q:::y)
-
-instance (Compare a b c, Expand' c (a:^:p:::x) x' (b:^:q:::y) y') => Expand (a:^:p:::x) x' (b:^:q:::y) y'
-
--- | Expands non-empty products /x/ and /y/ with leading exponentials
---   /a/^/p/ and /b/^/q/ where /a/ and /b/ have relative ordering /c/
---   into products /x'/ and /y'/, whose encodings are the same length
---   and share the same set of prime bases as one another.
-class Expand' c x x' y y' | c x y -> x' y'
-
-instance Expand          x  x'          y  y' => Expand' EQ (a:^:p:::x) (a:^:p:::x') (b:^:q:::y) (b:^:q:::y')
-instance Expand          x  x' (b:^:q:::y) y' => Expand' LT (a:^:p:::x) (a:^:p:::x') (b:^:q:::y) (a:^:Z:::y')
-instance Expand (a:^:p:::x) x'          y  y' => Expand' GT (a:^:p:::x) (b:^:Z:::x') (b:^:q:::y) (b:^:q:::y')
-
 -- | Multiplies product /x/ with product /y/.
 class                                                     Multiply x y z | x y -> z
 instance (Expand x x' y y', M x' y' z', Contract z' z) => Multiply x y z
@@ -100,4 +72,32 @@ instance (Max p q r, L x y z) => L (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 class                            G          x           y           z | x y -> z
 instance                         G          E           E           E
 instance (Min p q r, G x y z) => G (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
+
+-- | Contracts product /x/ by removing all factors with a zero exponent.
+class                    Contract                x                 y | x -> y
+instance                 Contract                E                 E
+instance Contract x y => Contract (a:^:(N n) ::: x) (a:^:(N n) ::: y)
+instance Contract x y => Contract (a:^:(P n) ::: x) (a:^:(P n) ::: y)
+instance Contract x y => Contract (a:^:   Z  ::: x)                y
+
+-- | Expands products /x/ and /y/ into products /x'/ and /y'/ whose
+--   encodings are the same length and share the same set of prime
+--   bases as one another.
+class Expand x x' y y' | x y -> x' y'
+
+instance Expand E E E E
+instance Expand x x E y => Expand (a:^:p:::x) (a:^:p:::x)          E  (a:^:Z:::y)
+instance Expand E x y y => Expand          E  (b:^:Z:::x) (b:^:q:::y) (b:^:q:::y)
+
+instance (Compare a b c, Expand' c (a:^:p:::x) x' (b:^:q:::y) y') => Expand (a:^:p:::x) x' (b:^:q:::y) y'
+
+-- | Expands non-empty products /x/ and /y/ with leading exponentials
+--   /a/^/p/ and /b/^/q/ where /a/ and /b/ have relative ordering /c/
+--   into products /x'/ and /y'/, whose encodings are the same length
+--   and share the same set of prime bases as one another.
+class Expand' c x x' y y' | c x y -> x' y'
+
+instance Expand          x  x'          y  y' => Expand' EQ (a:^:p:::x) (a:^:p:::x') (b:^:q:::y) (b:^:q:::y')
+instance Expand          x  x' (b:^:q:::y) y' => Expand' LT (a:^:p:::x) (a:^:p:::x') (b:^:q:::y) (a:^:Z:::y')
+instance Expand (a:^:p:::x) x'          y  y' => Expand' GT (a:^:p:::x) (b:^:Z:::x') (b:^:q:::y) (b:^:q:::y')
 
