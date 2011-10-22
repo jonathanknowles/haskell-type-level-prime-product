@@ -8,7 +8,20 @@
 {-# LANGUAGE UndecidableInstances   #-}
 
 -- | Type-level encodings and operations for products of prime numbers.
-module Data.TypeLevel.PrimeProduct.Sparse where
+module Data.TypeLevel.PrimeProduct.Sparse
+	( (:::)
+	, (:^:)
+	, E
+	, V
+	, Value
+	, Multiply
+	, Divide
+	, LCM
+	, GCD
+	, Contract
+	, Expand
+	)
+	where
 
 import Data.TypeLevel.Comparison
 import Data.TypeLevel.Integer
