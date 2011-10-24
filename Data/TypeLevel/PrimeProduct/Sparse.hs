@@ -36,18 +36,6 @@ data exponentiatedPrime ::: tail
 -- | A type-level representation of the /empty/ prime product.
 data E
 
--- | The result of evaluating type-level value /x/ at run-time.
-data V x = V Integer
-
--- | Converts product /x/ into a run-time value.
-class                          Value      x  where value :: V x
-instance                       Value (    Z) where value  = V (    0)
-instance (Value t         ) => Value (N   t) where value  = V (x - 1) where V x = value :: V t
-instance (Value t         ) => Value (P   t) where value  = V (x + 1) where V x = value :: V t
-instance                       Value (    E) where value  = V (    1)
-instance (Value a, Value p) => Value (a:^:p) where value  = V (a ^ p) where (V a, V p) = (value, value) :: (V a, V p)
-instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x, V y) = (value, value) :: (V x, V y)
-
 -- | Multiplies product /x/ with product /y/.
 class Multiply x y z | x y -> z
 
@@ -109,3 +97,14 @@ instance Expand          x  x'          y  y' => Expand' EQ (a:^:p:::x) (a:^:p::
 instance Expand          x  x' (b:^:q:::y) y' => Expand' LT (a:^:p:::x) (a:^:p:::x') (b:^:q:::y) (a:^:Z:::y')
 instance Expand (a:^:p:::x) x'          y  y' => Expand' GT (a:^:p:::x) (b:^:Z:::x') (b:^:q:::y) (b:^:q:::y')
 
+-- | The result of evaluating type-level value /x/ at run-time.
+data V x = V Integer
+
+-- | Converts product /x/ into a run-time value.
+class                          Value      x  where value :: V x
+instance                       Value (    Z) where value  = V (    0)
+instance (Value t         ) => Value (N   t) where value  = V (x - 1) where V x = value :: V t
+instance (Value t         ) => Value (P   t) where value  = V (x + 1) where V x = value :: V t
+instance                       Value (    E) where value  = V (    1)
+instance (Value a, Value p) => Value (a:^:p) where value  = V (a ^ p) where (V a, V p) = (value, value) :: (V a, V p)
+instance (Value x, Value y) => Value (x:::y) where value  = V (x * y) where (V x, V y) = (value, value) :: (V x, V y)
