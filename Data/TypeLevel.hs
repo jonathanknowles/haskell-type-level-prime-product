@@ -9,11 +9,11 @@ module Data.TypeLevel
 	, EQ
 	, LT
 	, GT
-	, Max
-	, Min
+	, Maximum
+	, Minimum
 	, Negate
 	, Add
-	, Sub
+	, Subtract
 	, Multiply
 	, Divide
 	, LCM
@@ -21,9 +21,9 @@ module Data.TypeLevel
 	, Reciprocal
 	, ApplyBinary
 	, OperatorAdd
-	, OperatorSub
-	, OperatorMax
-	, OperatorMin
+	, OperatorSubtract
+	, OperatorMaximum
+	, OperatorMinimum
 	) where
 
 -- | Compares /a/ with /b/ to find their relative order /c/.
@@ -48,12 +48,12 @@ data LT
 data GT
 
 -- | Finds the greater of /a/ and /b/.
-class Max a b c | a b -> c
-instance (Compare a b z, Max' z a b c) => Max a b c
+class Maximum a b c | a b -> c
+instance (Compare a b z, Maximum' z a b c) => Maximum a b c
 
 -- | Finds the smaller of /a/ and /b/.
-class Min a b c | a b -> c
-instance (Compare a b z, Min' z a b c) => Min a b c
+class Minimum a b c | a b -> c
+instance (Compare a b z, Minimum' z a b c) => Minimum a b c
 
 -- | Finds the negation /b/ of /a/.
 class Negate a b | a -> b
@@ -62,8 +62,8 @@ class Negate a b | a -> b
 class Add a b c | a b -> c
 
 -- | Subtracts /b/ from /a/ to produce /c/.
-class Sub a b c | a b -> c
-instance (Negate b b', Add a b' c) => Sub a b c
+class Subtract a b c | a b -> c
+instance (Negate b b', Add a b' c) => Subtract a b c
 
 -- | Multiplies /a/ with /b/ to produce /c/.
 class Multiply a b c | a b -> c
@@ -84,24 +84,24 @@ class Reciprocal a b | a -> b
 class ApplyBinary f a b c | f a b -> c
 
 data OperatorAdd
-data OperatorSub
-data OperatorMax
-data OperatorMin
+data OperatorSubtract
+data OperatorMaximum
+data OperatorMinimum
 
-instance Add a b c => ApplyBinary OperatorAdd a b c
-instance Sub a b c => ApplyBinary OperatorSub a b c
-instance Min a b c => ApplyBinary OperatorMin a b c
-instance Max a b c => ApplyBinary OperatorMax a b c
+instance Add      a b c => ApplyBinary OperatorAdd      a b c
+instance Subtract a b c => ApplyBinary OperatorSubtract a b c
+instance Minimum  a b c => ApplyBinary OperatorMinimum  a b c
+instance Maximum  a b c => ApplyBinary OperatorMaximum  a b c
 
 -- | Finds the greater of /a/ and /b/ when the relative ordering /z/ between /a/ and /b/ is known.
-class    Max' z  a b c | z a b -> c
-instance Max' EQ a a a
-instance Max' LT a b b
-instance Max' GT a b a
+class    Maximum' z  a b c | z a b -> c
+instance Maximum' EQ a a a
+instance Maximum' LT a b b
+instance Maximum' GT a b a
 
 -- | Finds the smaller of /a/ and /b/ when the relative ordering /z/ between /a/ and /b/ is known.
-class    Min' z  a b c | z a b -> c
-instance Min' EQ a a a
-instance Min' LT a b a
-instance Min' GT a b b
+class    Minimum' z  a b c | z a b -> c
+instance Minimum' EQ a a a
+instance Minimum' LT a b a
+instance Minimum' GT a b b
 
