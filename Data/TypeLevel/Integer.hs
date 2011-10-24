@@ -37,10 +37,10 @@ instance                  Compare    Z  (N b) GT
 instance                  Compare    Z  (P b) LT
 instance                  Compare (N a)    Z  LT
 instance                  Compare (P a)    Z  GT
-instance Compare a b c => Compare (N a) (N b)  c
 instance                  Compare (N a) (P b) LT
 instance                  Compare (P a) (N b) GT
 instance Compare a b c => Compare (P a) (P b)  c
+instance Compare a b c => Compare (N a) (N b)  c
 
 instance               Negate    Z     Z
 instance Negate a b => Negate (N a) (P b)
