@@ -45,16 +45,13 @@ class Negate a b | a -> b
 class Reciprocal a b | a -> b
 
 -- | Compares /a/ with /b/ to find their relative order /c/.
---
---   Returns:
---
---   * 'EQ' if (/a/  = /b/).
---
---   * 'LT' if (/a/ \< /b/).
---
---   * 'GT' if (/a/  > /b/).
---
-class Compare a b c | a b -> c
+class ComparisonResult c => Compare a b c | a b -> c
+
+-- | The result of a comparison between two types.
+class ComparisonResult c
+instance ComparisonResult EQ
+instance ComparisonResult LT
+instance ComparisonResult GT
 
 -- | Finds the greater of /a/ and /b/.
 class Maximum a b c | a b -> c
