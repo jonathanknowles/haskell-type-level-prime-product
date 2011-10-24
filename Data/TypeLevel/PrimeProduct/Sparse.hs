@@ -37,10 +37,10 @@ class Zip f x y z | f x y -> z
 -- Uses binary operator /f/ to zip together expanded products /x/ and /y/.
 class Zip' f x y z | f x y -> z
 
-instance (Zip AddOperator x y z) => Multiply x y z
-instance (Zip SubOperator x y z) => Divide   x y z
-instance (Zip MaxOperator x y z) => LCM      x y z
-instance (Zip MinOperator x y z) => GCD      x y z
+instance (Zip OperatorAdd x y z) => Multiply x y z
+instance (Zip OperatorSub x y z) => Divide   x y z
+instance (Zip OperatorMax x y z) => LCM      x y z
+instance (Zip OperatorMin x y z) => GCD      x y z
 
 instance (Expand x x' y y', Zip' f x' y' z', Contract z' z) => Zip f x y z
 

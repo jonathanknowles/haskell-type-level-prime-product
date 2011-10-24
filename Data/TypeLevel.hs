@@ -20,10 +20,10 @@ module Data.TypeLevel
 	, GCD
 	, Reciprocal
 	, ApplyBinary
-	, AddOperator
-	, SubOperator
-	, MaxOperator
-	, MinOperator
+	, OperatorAdd
+	, OperatorSub
+	, OperatorMax
+	, OperatorMin
 	) where
 
 -- | Compares /a/ with /b/ to find their relative order /c/.
@@ -83,15 +83,15 @@ class Reciprocal a b | a -> b
 -- Apply binary operator /f/ to /a/ and /b/ to produce /c/.
 class ApplyBinary f a b c | f a b -> c
 
-data AddOperator
-data SubOperator
-data MaxOperator
-data MinOperator
+data OperatorAdd
+data OperatorSub
+data OperatorMax
+data OperatorMin
 
-instance Add a b c => ApplyBinary AddOperator a b c
-instance Sub a b c => ApplyBinary SubOperator a b c
-instance Min a b c => ApplyBinary MinOperator a b c
-instance Max a b c => ApplyBinary MaxOperator a b c
+instance Add a b c => ApplyBinary OperatorAdd a b c
+instance Sub a b c => ApplyBinary OperatorSub a b c
+instance Min a b c => ApplyBinary OperatorMin a b c
+instance Max a b c => ApplyBinary OperatorMax a b c
 
 -- | Finds the greater of /a/ and /b/ when the relative ordering /z/ between /a/ and /b/ is known.
 class    Max' z  a b c | z a b -> c
