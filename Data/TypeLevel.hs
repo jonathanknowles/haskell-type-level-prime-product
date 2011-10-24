@@ -24,6 +24,10 @@ module Data.TypeLevel
 	, OperatorSubtract
 	, OperatorMaximum
 	, OperatorMinimum
+	, OperatorMultiply
+	, OperatorDivide
+	, OperatorLCM
+	, OperatorGCD
 	) where
 
 -- | Compares /a/ with /b/ to find their relative order /c/.
@@ -87,11 +91,19 @@ data OperatorAdd
 data OperatorSubtract
 data OperatorMaximum
 data OperatorMinimum
+data OperatorMultiply
+data OperatorDivide
+data OperatorLCM
+data OperatorGCD
 
 instance Add      a b c => ApplyBinary OperatorAdd      a b c
 instance Subtract a b c => ApplyBinary OperatorSubtract a b c
 instance Minimum  a b c => ApplyBinary OperatorMinimum  a b c
 instance Maximum  a b c => ApplyBinary OperatorMaximum  a b c
+instance Multiply a b c => ApplyBinary OperatorMultiply a b c
+instance Divide   a b c => ApplyBinary OperatorDivide   a b c
+instance LCM      a b c => ApplyBinary OperatorLCM      a b c
+instance GCD      a b c => ApplyBinary OperatorGCD      a b c
 
 -- | Finds the greater of /a/ and /b/ when the relative ordering /z/ between /a/ and /b/ is known.
 class    Maximum' z  a b c | z a b -> c
