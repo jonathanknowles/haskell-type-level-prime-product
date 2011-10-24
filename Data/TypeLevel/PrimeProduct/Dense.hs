@@ -11,15 +11,10 @@
 module Data.TypeLevel.PrimeProduct.Dense
 	( (:::)
 	, E
-	, Multiply
-	, Divide
-	, LCM
-	, GCD
-	, Reciprocal
 	)
 	where
 
-import Data.TypeLevel.Comparison
+import Data.TypeLevel
 import Data.TypeLevel.Integer
 
 infixr 0 :::
@@ -31,18 +26,6 @@ data primeExponent ::: tail
 
 -- | A type-level representation of the /empty/ prime product.
 data E
-
--- | Multiplies product /x/ with product /y/.
-class Multiply x y z | x y -> z
-
--- | Divides product /x/ by product /y/.
-class Divide x y z | x y -> z
-
--- | Finds the least common multiple of product /x/ and product /y/.
-class LCM x y z | x y -> z
-
--- | Finds the greatest common divisor of product /x/ and product /y/.
-class GCD x y z | x y -> z
 
 -- Uses binary operator /f/ to zip together products /x/ and /y/.
 class Zip f x y z | f x y -> z
@@ -60,8 +43,6 @@ instance (Extend x x' y y', Zip' f x' y' z', TrimTail z' z) => Zip f x y z
 instance                                        Zip' f      E       E       E
 instance (ApplyBinary f p q r, Zip' f x y z) => Zip' f (p:::x) (q:::y) (r:::z)
 
--- | Find the reciprocal of product /x/.
-class                                    Reciprocal      x       y | x -> y
 instance                                 Reciprocal      E       E
 instance (Negate p q, Reciprocal x y) => Reciprocal (p:::x) (q:::y)
 

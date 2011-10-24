@@ -12,7 +12,7 @@ Build-type:     Simple
 Cabal-version:  >=1.2
 
 Library
-    Exposed-modules:   Data.TypeLevel.Comparison
+    Exposed-modules:   Data.TypeLevel
                        Data.TypeLevel.Integer
                        Data.TypeLevel.Integer.Synonyms
                        Data.TypeLevel.PrimeProduct.Dense
