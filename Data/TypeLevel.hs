@@ -20,6 +20,7 @@ module Data.TypeLevel
 	, GCD
 	, Reciprocal
 	, ApplyBinary
+	, OperatorCompare
 	, OperatorAdd
 	, OperatorSubtract
 	, OperatorMaximum
@@ -87,6 +88,7 @@ class Reciprocal a b | a -> b
 -- Apply binary operator /f/ to /a/ and /b/ to produce /c/.
 class ApplyBinary f a b c | f a b -> c
 
+data OperatorCompare
 data OperatorAdd
 data OperatorSubtract
 data OperatorMaximum
@@ -96,6 +98,7 @@ data OperatorDivide
 data OperatorLCM
 data OperatorGCD
 
+instance Compare  a b c => ApplyBinary OperatorCompare  a b c
 instance Add      a b c => ApplyBinary OperatorAdd      a b c
 instance Subtract a b c => ApplyBinary OperatorSubtract a b c
 instance Minimum  a b c => ApplyBinary OperatorMinimum  a b c
