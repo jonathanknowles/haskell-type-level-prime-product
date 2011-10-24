@@ -32,6 +32,8 @@ instance (Add a b c) => Add (N a) (P b)       c
 instance (Add a b c) => Add (P a) (N b)       c
 instance (Add a b c) => Add (P a) (P b) (P (P c))
 
+instance (Negate b b', Add a b' c) => Subtract a b c
+
 instance                  Compare    Z     Z  EQ
 instance                  Compare    Z  (N b) GT
 instance                  Compare    Z  (P b) LT

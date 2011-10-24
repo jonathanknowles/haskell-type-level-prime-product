@@ -78,7 +78,6 @@ class Add a b c | a b -> c
 
 -- | Subtracts /b/ from /a/ to produce /c/.
 class Subtract a b c | a b -> c
-instance (Negate b b', Add a b' c) => Subtract a b c
 
 -- | Multiplies /a/ with /b/ to produce /c/.
 class Multiply a b c | a b -> c
