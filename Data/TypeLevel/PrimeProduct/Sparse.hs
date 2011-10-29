@@ -13,7 +13,7 @@ module Data.TypeLevel.PrimeProduct.Sparse
 import Data.TypeLevel.Exponential
 import Data.TypeLevel.PrimeProduct
 
-instance                                               ZipExpanded f          E           E           E
+instance ZipExpanded f E E E
 instance (ApplyBinary f p q r, ZipExpanded f x y z) => ZipExpanded f (a:^:p:::x) (a:^:q:::y) (a:^:r:::z)
 
 instance Reciprocal E E
