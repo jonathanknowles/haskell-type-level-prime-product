@@ -3,8 +3,6 @@
 
 module Data.TypeLevel.PrimeProduct.SparseTest where
 
-import Data.TypeLevel
-import Data.TypeLevel.Integer
 import Data.TypeLevel.Integer.Synonyms
 import Data.TypeLevel.PrimeProduct.Sparse
 

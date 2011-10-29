@@ -13,7 +13,8 @@ module Data.TypeLevel.Integer
 	)
 	where
 
-import Data.TypeLevel
+import Data.TypeLevel.Number
+import Data.TypeLevel.Ordering
 
 -- | A type-level representation of the integer /zero/.
 data Z
@@ -47,4 +48,3 @@ instance Compare a b c => Compare (N a) (N b)  c
 instance               Negate    Z     Z
 instance Negate a b => Negate (N a) (P b)
 instance Negate a b => Negate (P a) (N b)
-

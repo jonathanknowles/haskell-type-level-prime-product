@@ -12,12 +12,17 @@ Build-type:     Simple
 Cabal-version:  >=1.2
 
 Library
-    Exposed-modules:   Data.TypeLevel
+    Exposed-modules:   Data.TypeLevel.Exponential
                        Data.TypeLevel.Integer
                        Data.TypeLevel.Integer.Synonyms
+                       Data.TypeLevel.List
+                       Data.TypeLevel.Number
+                       Data.TypeLevel.Operator
+                       Data.TypeLevel.Ordering
+                       Data.TypeLevel.PrimeProduct
                        Data.TypeLevel.PrimeProduct.Dense
                        Data.TypeLevel.PrimeProduct.Sparse
+                       Data.TypeLevel.Value
     Other-modules:     Data.TypeLevel.PrimeProduct.DenseTest
                        Data.TypeLevel.PrimeProduct.SparseTest
     Build-depends:     base >= 4.0
-
